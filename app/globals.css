@@ -1,26 +1,53 @@
+/* app/globals.css */
+
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap");
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Dark mode (default) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --blog-bg: #1a1a1a;
+  --blog-surface: #242424;
+  --blog-text: #e8e8e4;
+  --blog-text-muted: #999999;
+  --blog-text-hint: #666666;
+  --blog-accent: #afa9ec;
+  --blog-accent-light: #26215c;
+  --blog-accent-text: #cecbf6;
+  --blog-border: rgba(255, 255, 255, 0.1);
+  --blog-cat-bg: #085041;
+  --blog-cat-text: #9fe1cb;
+  --blog-tag-bg: #042c53;
+  --blog-tag-text: #85b7eb;
+  --blog-news-bg: #412402;
+  --blog-news-text: #fac775;
+  --blog-news-dot: #ef9f27;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Light mode */
+.light {
+  --blog-bg: #fafaf8;
+  --blog-surface: #ffffff;
+  --blog-text: #2c2c2a;
+  --blog-text-muted: #888780;
+  --blog-text-hint: #b4b2a9;
+  --blog-accent: #534ab7;
+  --blog-accent-light: #eeedfe;
+  --blog-accent-text: #3c3489;
+  --blog-border: rgba(0, 0, 0, 0.08);
+  --blog-cat-bg: #e1f5ee;
+  --blog-cat-text: #0f6e56;
+  --blog-tag-bg: #e6f1fb;
+  --blog-tag-text: #185fa5;
+  --blog-news-bg: #faeeda;
+  --blog-news-text: #854f0b;
+  --blog-news-dot: #ef9f27;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Libre Baskerville", Georgia, serif;
+  background-color: var(--blog-bg);
+  color: var(--blog-text);
+  transition: background-color 0.3s, color 0.3s;
 }
