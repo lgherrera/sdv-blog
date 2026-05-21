@@ -75,10 +75,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* Body */}
       <div className="space-y-4">
         {post.body?.map((paragraph, i) => (
-          <p
-            key={i}
-            className="text-base leading-[1.8] text-blog-text-muted"
-          >
+          <p key={i} className="text-base leading-[1.8] text-blog-text-muted">
             {paragraph}
           </p>
         ))}
@@ -93,9 +90,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="text-[13px] font-medium text-blog-text">
             Sicópatas de Viña
           </p>
-          <p className="text-xs text-blog-text-hint">
-            Published {post.date}
-          </p>
+          <p className="text-xs text-blog-text-hint">Published {post.date}</p>
         </div>
       </div>
     </div>

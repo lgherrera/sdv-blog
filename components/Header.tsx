@@ -11,7 +11,10 @@ export default function Header() {
   return (
     <header className="bg-blog-surface border-b border-blog-border">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="font-sans font-medium text-lg tracking-tight">
+        <Link
+          href="/"
+          className="font-sans font-medium text-lg tracking-tight"
+        >
           <span className="text-blog-accent">Sicópatas</span>
           <span className="text-blog-text"> de Viña</span>
         </Link>

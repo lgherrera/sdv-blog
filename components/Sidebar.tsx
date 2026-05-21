@@ -1,6 +1,9 @@
 // components/Sidebar.tsx
 
+"use client";
+
 import Link from "next/link";
+import { useTheme } from "./ThemeProvider";
 import type { Post, NewsItem, Category } from "@/lib/mockData";
 
 interface SidebarProps {
@@ -9,44 +12,29 @@ interface SidebarProps {
   news: NewsItem[];
 }
 
-function NewsImage({ type }: { type: string }) {
-  const gradients: Record<string, string> = {
-    "gradient-purple":
-      "bg-gradient-to-br from-[#26215C] to-[#3C3489]",
-    "gradient-teal":
-      "bg-gradient-to-br from-[#085041] to-[#0F6E56]",
-  };
+const gradientsDark: Record<string, string> = {
+  "gradient-purple": "linear-gradient(135deg, #26215C, #3C3489)",
+  "gradient-teal": "linear-gradient(135deg, #085041, #0F6E56)",
+};
 
-  const lightGradients: Record<string, string> = {
-    "gradient-purple":
-      "bg-gradient-to-br from-[#EEEDFE] to-[#CECBF6]",
-    "gradient-teal":
-      "bg-gradient-to-br from-[#E1F5EE] to-[#9FE1CB]",
-  };
+const gradientsLight: Record<string, string> = {
+  "gradient-purple": "linear-gradient(135deg, #EEEDFE, #CECBF6)",
+  "gradient-teal": "linear-gradient(135deg, #E1F5EE, #9FE1CB)",
+};
 
-  return (
-    <>
-      {/* Dark mode version */}
-      <div
-        className={`w-full h-24 flex items-center justify-center text-2xl dark:block hidden ${gradients[type] || gradients["gradient-purple"]}`}
-      >
-        {type === "gradient-purple" ? "💻" : "🌙"}
-      </div>
-      {/* Light mode version */}
-      <div
-        className={`w-full h-24 flex items-center justify-center text-2xl dark:hidden block ${lightGradients[type] || lightGradients["gradient-purple"]}`}
-      >
-        {type === "gradient-purple" ? "💻" : "🌙"}
-      </div>
-    </>
-  );
-}
+const iconMap: Record<string, string> = {
+  "gradient-purple": "💻",
+  "gradient-teal": "🌙",
+};
 
 export default function Sidebar({
   categories,
   featuredPosts,
   news,
 }: SidebarProps) {
+  const { theme } = useTheme();
+  const gradients = theme === "light" ? gradientsLight : gradientsDark;
+
   return (
     <aside className="space-y-4">
       {/* Search */}
@@ -143,7 +131,17 @@ export default function Sidebar({
               key={i}
               className="border-b border-blog-border last:border-b-0"
             >
-              {item.image && <NewsImage type={item.image} />}
+              {item.image && (
+                <div
+                  className="w-full h-24 flex items-center justify-center text-2xl"
+                  style={{
+                    background:
+                      gradients[item.image] || gradients["gradient-purple"],
+                  }}
+                >
+                  {iconMap[item.image] || "📰"}
+                </div>
+              )}
               <div className={item.image ? "p-4" : "px-4 py-3"}>
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-news-dot flex-shrink-0" />

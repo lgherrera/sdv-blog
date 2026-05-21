@@ -5,6 +5,31 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-serif: "Libre Baskerville", Georgia, serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+
+  --color-blog-bg: var(--blog-bg);
+  --color-blog-surface: var(--blog-surface);
+  --color-blog-text: var(--blog-text);
+  --color-blog-text-muted: var(--blog-text-muted);
+  --color-blog-text-hint: var(--blog-text-hint);
+  --color-blog-accent: var(--blog-accent);
+  --color-blog-accent-light: var(--blog-accent-light);
+  --color-blog-accent-text: var(--blog-accent-text);
+  --color-blog-border: var(--blog-border);
+
+  --color-cat-bg: var(--blog-cat-bg);
+  --color-cat-text: var(--blog-cat-text);
+
+  --color-tag-bg: var(--blog-tag-bg);
+  --color-tag-text: var(--blog-tag-text);
+
+  --color-news-bg: var(--blog-news-bg);
+  --color-news-text: var(--blog-news-text);
+  --color-news-dot: var(--blog-news-dot);
+}
+
 /* Dark mode (default) */
 :root {
   --blog-bg: #1a1a1a;
