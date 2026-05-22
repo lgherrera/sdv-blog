@@ -1,19 +1,19 @@
-// sanity/schemas/person.ts
+// sanity/schemas/place.ts
 //
-// A person in the documentary universe.
-// Could be a criminal, a victim, a police officer, a judge, a witness.
-// Each person is a potential protagonist of their own narrative path.
+// A location in the documentary universe.
+// Could be a crime scene, a courthouse, a neighborhood, a landmark.
+// Mappable and explorable across time periods.
 
 import { defineType, defineField } from "sanity";
 
 export default defineType({
-  name: "person",
-  title: "Person",
+  name: "place",
+  title: "Place",
   type: "document",
   fields: [
     defineField({
       name: "name",
-      title: "Full name",
+      title: "Name",
       type: "string",
       validation: (rule) => rule.required(),
     }),
@@ -25,124 +25,118 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "aliases",
-      title: "Aliases / nicknames",
-      type: "array",
-      of: [{ type: "string" }],
-    }),
-    defineField({
-      name: "role",
-      title: "Primary role",
+      name: "placeType",
+      title: "Place type",
       type: "string",
       options: {
         list: [
-          { title: "Criminal", value: "criminal" },
-          { title: "Victim", value: "victim" },
-          { title: "Law enforcement", value: "law_enforcement" },
-          { title: "Judge / legal", value: "legal" },
-          { title: "Witness", value: "witness" },
-          { title: "Journalist", value: "journalist" },
-          { title: "Politician", value: "politician" },
-          { title: "Civilian", value: "civilian" },
+          { title: "Crime scene", value: "crime_scene" },
+          { title: "Courthouse / legal", value: "legal" },
+          { title: "Prison", value: "prison" },
+          { title: "Police station", value: "police" },
+          { title: "Neighborhood", value: "neighborhood" },
+          { title: "Landmark", value: "landmark" },
+          { title: "Business", value: "business" },
+          { title: "Residence", value: "residence" },
+          { title: "Execution site", value: "execution_site" },
           { title: "Other", value: "other" },
         ],
       },
     }),
     defineField({
-      name: "bio",
-      title: "Biography",
+      name: "description",
+      title: "Description",
       type: "array",
       of: [{ type: "block" }],
     }),
     defineField({
-      name: "bornDate",
-      title: "Date of birth",
-      type: "date",
+      name: "location",
+      title: "Coordinates",
+      type: "geopoint",
+      description: "Latitude/longitude for map display.",
     }),
     defineField({
-      name: "deathDate",
-      title: "Date of death",
-      type: "date",
+      name: "address",
+      title: "Address",
+      type: "string",
     }),
     defineField({
-      name: "bornPlace",
-      title: "Place of birth",
-      type: "reference",
-      to: [{ type: "place" }],
+      name: "city",
+      title: "City",
+      type: "string",
+      initialValue: "Viña del Mar",
     }),
 
-    // AI-generated visual profile
+    // AI-generated visuals
     defineField({
-      name: "portraitImage",
-      title: "Portrait image",
+      name: "sceneImage",
+      title: "Scene image",
       type: "image",
       options: { hotspot: true },
-      description:
-        "AI-generated stylized portrait. Consistent artistic style across all people.",
+      description: "AI-generated illustration of this place.",
     }),
     defineField({
-      name: "portraitVideo",
-      title: "Portrait video",
+      name: "sceneVideo",
+      title: "Scene video",
       type: "file",
       options: { accept: "video/*" },
-      description:
-        "Optional AI-generated short video loop (5-10 seconds).",
+      description: "Optional AI-generated ambient video loop.",
     }),
     defineField({
-      name: "portraitStyle",
-      title: "Portrait generation prompt",
-      type: "text",
-      rows: 2,
+      name: "historicalImages",
+      title: "Historical images by era",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "era", title: "Era", type: "string" },
+            {
+              name: "image",
+              title: "Image",
+              type: "image",
+              options: { hotspot: true },
+            },
+            {
+              name: "caption",
+              title: "Caption",
+              type: "string",
+            },
+          ],
+          preview: {
+            select: { title: "era", media: "image" },
+          },
+        },
+      ],
       description:
-        "The AI prompt used to generate this portrait, for consistency and regeneration.",
+        "The same place rendered across different time periods.",
     }),
 
     // Connections
     defineField({
-      name: "organizations",
-      title: "Organizations",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "organization" }] }],
-      description: "Organizations this person belonged to or was associated with.",
-    }),
-    defineField({
       name: "keyEvents",
-      title: "Key events",
+      title: "Events at this location",
       type: "array",
       of: [{ type: "reference", to: [{ type: "event" }] }],
-      description: "Major events this person was involved in.",
     }),
 
-    // Timeline
     defineField({
       name: "era",
-      title: "Era",
+      title: "Primary era",
       type: "string",
-      description: 'Approximate time period, e.g. "1940s-1960s".',
     }),
-
-    // Documentary metadata
     defineField({
-      name: "significance",
-      title: "Narrative significance",
-      type: "string",
-      options: {
-        list: [
-          { title: "Protagonist", value: "protagonist" },
-          { title: "Antagonist", value: "antagonist" },
-          { title: "Key supporting", value: "key_supporting" },
-          { title: "Minor", value: "minor" },
-          { title: "Background", value: "background" },
-        ],
-      },
-      description: "How central is this person to the overall narrative?",
+      name: "stillExists",
+      title: "Still exists today?",
+      type: "boolean",
+      initialValue: true,
     }),
   ],
   preview: {
     select: {
       title: "name",
-      subtitle: "role",
-      media: "portraitImage",
+      subtitle: "placeType",
+      media: "sceneImage",
     },
   },
 });
