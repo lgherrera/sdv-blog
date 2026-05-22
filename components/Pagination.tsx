@@ -13,11 +13,11 @@ export default function Pagination({
   totalPages,
 }: PaginationProps) {
   return (
-    <div className="flex gap-1.5 justify-center mt-6">
+    <div className="flex gap-1.5 justify-center mt-4 sm:mt-6">
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <button
           key={page}
-          className={`font-sans text-xs px-3 py-1 border rounded-md transition-colors ${
+          className={`font-sans text-xs px-2.5 sm:px-3 py-1 border rounded-md transition-colors ${
             page === currentPage
               ? "bg-blog-accent text-white border-blog-accent"
               : "bg-blog-surface text-blog-text-muted border-blog-border hover:border-blog-accent"
@@ -26,7 +26,7 @@ export default function Pagination({
           {page}
         </button>
       ))}
-      <button className="font-sans text-xs px-3 py-1 bg-blog-surface text-blog-text-muted border border-blog-border rounded-md hover:border-blog-accent transition-colors">
+      <button className="font-sans text-xs px-2.5 sm:px-3 py-1 bg-blog-surface text-blog-text-muted border border-blog-border rounded-md hover:border-blog-accent transition-colors">
         →
       </button>
     </div>

@@ -26,9 +26,9 @@ export default function PostCard({ post }: { post: Post }) {
 
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
-      <article className="bg-blog-surface border border-blog-border rounded-xl p-5 mb-5 transition-colors group-hover:border-blog-accent">
+      <article className="bg-blog-surface border border-blog-border rounded-xl p-4 sm:p-5 mb-4 sm:mb-5 transition-colors group-hover:border-blog-accent">
         {/* Badges */}
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex flex-wrap items-center gap-2 mb-3">
           <span
             className={`font-sans text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md ${config.className}`}
           >
@@ -41,34 +41,34 @@ export default function PostCard({ post }: { post: Post }) {
 
         {/* Image placeholder for photo posts */}
         {post.type === "image" && (
-          <div className="w-full h-40 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-3xl">
+          <div className="w-full h-32 sm:h-40 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-2xl sm:text-3xl">
             🏔
           </div>
         )}
 
         {/* Video placeholder */}
         {post.type === "video" && (
-          <div className="w-full h-40 bg-tag-bg rounded-lg mb-4 flex items-center justify-center text-tag-text text-4xl">
+          <div className="w-full h-32 sm:h-40 bg-tag-bg rounded-lg mb-4 flex items-center justify-center text-tag-text text-3xl sm:text-4xl">
             ▶
           </div>
         )}
 
         {/* Title */}
-        <h3 className="text-[19px] font-normal leading-snug mb-2 text-blog-text">
+        <h3 className="text-base sm:text-[19px] font-normal leading-snug mb-2 text-blog-text">
           {post.title}
         </h3>
 
         {/* Meta */}
-        <div className="font-sans text-xs text-blog-text-hint flex items-center gap-2.5 mb-3">
+        <div className="font-sans text-[11px] sm:text-xs text-blog-text-hint flex flex-wrap items-center gap-2 sm:gap-2.5 mb-3">
           <span>{post.date}</span>
           <span className="w-[3px] h-[3px] rounded-full bg-blog-text-hint" />
           <span>{post.readTime}</span>
-          <span className="w-[3px] h-[3px] rounded-full bg-blog-text-hint" />
-          <span>by {post.author}</span>
+          <span className="w-[3px] h-[3px] rounded-full bg-blog-text-hint hidden sm:block" />
+          <span className="hidden sm:inline">by {post.author}</span>
         </div>
 
         {/* Excerpt */}
-        <p className="text-sm leading-relaxed text-blog-text-muted">
+        <p className="text-[13px] sm:text-sm leading-relaxed text-blog-text-muted line-clamp-3 sm:line-clamp-none">
           {post.excerpt}
         </p>
 

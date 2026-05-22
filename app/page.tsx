@@ -9,8 +9,8 @@ export default function HomePage() {
   const featuredPosts = getFeaturedPosts();
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-7">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-7">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-6 lg:gap-8">
         {/* Main column */}
         <div>
           {posts.slice(0, 4).map((post) => (
@@ -19,8 +19,8 @@ export default function HomePage() {
           <Pagination currentPage={1} totalPages={3} />
         </div>
 
-        {/* Sidebar */}
-        <div className="hidden lg:block">
+        {/* Sidebar — below main on mobile, side on desktop */}
+        <div>
           <Sidebar
             categories={categories}
             featuredPosts={featuredPosts}

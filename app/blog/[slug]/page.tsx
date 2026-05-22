@@ -40,9 +40,9 @@ export default async function BlogPostPage({ params }: PageProps) {
   const config = typeConfig[post.type];
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-7">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-5 sm:py-7">
       {/* Badges */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
         <span
           className={`font-sans text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md ${config.className}`}
         >
@@ -54,12 +54,12 @@ export default async function BlogPostPage({ params }: PageProps) {
       </div>
 
       {/* Title */}
-      <h1 className="text-[28px] font-normal leading-tight mb-3 text-blog-text">
+      <h1 className="text-xl sm:text-[28px] font-normal leading-tight mb-2 sm:mb-3 text-blog-text">
         {post.title}
       </h1>
 
       {/* Meta */}
-      <div className="font-sans text-xs text-blog-text-hint flex items-center gap-2.5 mb-5">
+      <div className="font-sans text-[11px] sm:text-xs text-blog-text-hint flex items-center gap-2 sm:gap-2.5 mb-4 sm:mb-5">
         <span>{post.date}</span>
         <span className="w-[3px] h-[3px] rounded-full bg-blog-text-hint" />
         <span>{post.readTime}</span>
@@ -67,30 +67,30 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       {/* Hero image placeholder */}
       {(post.type === "image" || post.type === "video") && (
-        <div className="w-full h-56 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-xl mb-6 flex items-center justify-center text-blog-text-hint text-4xl">
+        <div className="w-full h-40 sm:h-56 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-xl mb-5 sm:mb-6 flex items-center justify-center text-blog-text-hint text-3xl sm:text-4xl">
           {post.type === "image" ? "🏔" : "▶"}
         </div>
       )}
 
       {/* Body */}
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {post.body?.map((paragraph, i) => (
-          <p key={i} className="text-base leading-[1.8] text-blog-text-muted">
+          <p key={i} className="text-[15px] sm:text-base leading-[1.75] sm:leading-[1.8] text-blog-text-muted">
             {paragraph}
           </p>
         ))}
       </div>
 
       {/* Author bar */}
-      <div className="flex items-center gap-3 pt-4 mt-6 border-t border-blog-border">
-        <div className="w-10 h-10 rounded-full bg-blog-accent-light flex items-center justify-center text-blog-accent font-sans font-medium text-sm">
+      <div className="flex items-center gap-3 pt-4 mt-5 sm:mt-6 border-t border-blog-border">
+        <div className="w-9 sm:w-10 h-9 sm:h-10 rounded-full bg-blog-accent-light flex items-center justify-center text-blog-accent font-sans font-medium text-xs sm:text-sm">
           SV
         </div>
         <div className="font-sans">
           <p className="text-[13px] font-medium text-blog-text">
             Sicópatas de Viña
           </p>
-          <p className="text-xs text-blog-text-hint">Published {post.date}</p>
+          <p className="text-[11px] sm:text-xs text-blog-text-hint">Published {post.date}</p>
         </div>
       </div>
     </div>

@@ -31,10 +31,10 @@ export default async function CategoryPage({ params }: PageProps) {
   const featuredPosts = getFeaturedPosts();
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-7">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-7">
       {/* Category header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-normal text-blog-text mb-1">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl font-normal text-blog-text mb-1">
           {cat.name}
         </h1>
         <p className="font-sans text-sm text-blog-text-muted">
@@ -42,7 +42,7 @@ export default async function CategoryPage({ params }: PageProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-6 lg:gap-8">
         {/* Main column */}
         <div>
           {filteredPosts.length > 0 ? (
@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }: PageProps) {
         </div>
 
         {/* Sidebar */}
-        <div className="hidden lg:block">
+        <div>
           <Sidebar
             categories={categories}
             featuredPosts={featuredPosts}
