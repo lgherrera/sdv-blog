@@ -12,6 +12,8 @@ export default defineConfig({
   projectId: "c39tb4ml",
   dataset: "production",
 
+  basePath: "/studio",
+
   plugins: [structureTool(), visionTool()],
 
   schema: {
