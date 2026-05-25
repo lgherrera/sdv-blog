@@ -1,4 +1,4 @@
-// app/about/page.tsx
+// app/(blog)/about/page.tsx
 
 export default function AboutPage() {
   return (

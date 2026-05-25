@@ -1,34 +1,50 @@
-// app/category/[category]/page.tsx
+// app/(blog)/category/[category]/page.tsx
 
 import { notFound } from "next/navigation";
+import { client } from "@/sanity/lib/client";
+import {
+  postsByCategoryQuery,
+  categoriesQuery,
+  newsQuery,
+  featuredPostsQuery,
+  categoryBySlugQuery,
+} from "@/sanity/lib/queries";
+import type {
+  SanityPost,
+  SanityCategory,
+  SanityNews,
+  SanityFeaturedPost,
+} from "@/sanity/lib/types";
 import PostCard from "@/components/PostCard";
 import Sidebar from "@/components/Sidebar";
 import Pagination from "@/components/Pagination";
-import {
-  categories,
-  news,
-  getFeaturedPosts,
-  getPostsByCategory,
-} from "@/lib/mockData";
+
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ category: string }>;
 }
 
-export function generateStaticParams() {
-  return categories.map((cat) => ({ category: cat.slug }));
+export async function generateStaticParams() {
+  const categories = await client.fetch<SanityCategory[]>(categoriesQuery);
+  return categories.map((cat) => ({ category: cat.slug.current }));
 }
 
 export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;
-  const cat = categories.find((c) => c.slug === category);
+
+  const [cat, filteredPosts, categories, news, featuredPosts] =
+    await Promise.all([
+      client.fetch<SanityCategory | null>(categoryBySlugQuery, { category }),
+      client.fetch<SanityPost[]>(postsByCategoryQuery, { category }),
+      client.fetch<SanityCategory[]>(categoriesQuery),
+      client.fetch<SanityNews[]>(newsQuery),
+      client.fetch<SanityFeaturedPost[]>(featuredPostsQuery),
+    ]);
 
   if (!cat) {
     notFound();
   }
-
-  const filteredPosts = getPostsByCategory(cat.name);
-  const featuredPosts = getFeaturedPosts();
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-7">
@@ -38,7 +54,7 @@ export default async function CategoryPage({ params }: PageProps) {
           {cat.name}
         </h1>
         <p className="font-sans text-sm text-blog-text-muted">
-          {cat.count} posts in this category
+          {cat.count} {cat.count === 1 ? "post" : "posts"} in this category
         </p>
       </div>
 
@@ -47,7 +63,7 @@ export default async function CategoryPage({ params }: PageProps) {
         <div>
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
-              <PostCard key={post.slug} post={post} />
+              <PostCard key={post._id} post={post} />
             ))
           ) : (
             <p className="text-blog-text-muted text-sm">
