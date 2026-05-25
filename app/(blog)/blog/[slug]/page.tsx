@@ -72,9 +72,9 @@ const portableTextComponents = {
   },
   types: {
     image: ({ value }: { value: { asset: { _ref: string }; alt?: string } }) => (
-      <div className="my-6 rounded-lg overflow-hidden relative w-full h-64 sm:h-80">
+      <div className="my-6 rounded-lg overflow-hidden relative w-full aspect-video">
         <Image
-          src={urlFor(value).width(1200).height(800).url()}
+          src={urlFor(value).width(1200).height(675).url()}
           alt={value.alt || "Post image"}
           fill
           className="object-cover"
@@ -149,18 +149,18 @@ export default async function BlogPostPage({ params }: PageProps) {
         <span>{postType === "video" ? "watch" : "read"}</span>
       </div>
 
-      {/* YouTube embed for video posts */}
+      {/* YouTube embed for video posts — 16:9 via component */}
       {postType === "video" && post.featuredVideo && (
         <div className="mb-5 sm:mb-6">
           <YouTubeEmbed url={post.featuredVideo} title={post.title} />
         </div>
       )}
 
-      {/* Featured image */}
+      {/* Featured image — 16:9 */}
       {postType !== "video" && post.featuredImage && (
-        <div className="w-full h-40 sm:h-56 rounded-xl mb-5 sm:mb-6 overflow-hidden relative">
+        <div className="w-full aspect-video rounded-xl mb-5 sm:mb-6 overflow-hidden relative">
           <Image
-            src={urlFor(post.featuredImage).width(1200).height(600).url()}
+            src={urlFor(post.featuredImage).width(1200).height(675).url()}
             alt={post.title}
             fill
             className="object-cover"
@@ -168,11 +168,11 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Placeholder if no media for image/video posts */}
+      {/* Placeholder if no media for image/video posts — 16:9 */}
       {!post.featuredImage &&
         !post.featuredVideo &&
         (postType === "image" || postType === "video") && (
-          <div className="w-full h-40 sm:h-56 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-xl mb-5 sm:mb-6 flex items-center justify-center text-blog-text-hint text-3xl sm:text-4xl">
+          <div className="w-full aspect-video bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-xl mb-5 sm:mb-6 flex items-center justify-center text-blog-text-hint text-3xl sm:text-4xl">
             {postType === "image" ? "🏔" : "▶"}
           </div>
         )}

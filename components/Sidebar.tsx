@@ -135,7 +135,7 @@ export default function Sidebar({
                 className="border-b border-blog-border last:border-b-0"
               >
                 {item.image && (
-                  <div className="w-full h-24 relative overflow-hidden">
+                  <div className="w-full aspect-video relative overflow-hidden">
                     <Image
                       src={urlFor(item.image).width(520).height(192).url()}
                       alt={item.title}

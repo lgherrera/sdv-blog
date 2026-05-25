@@ -68,11 +68,11 @@ export default function PostCard({ post }: { post: SanityPost }) {
           )}
         </div>
 
-        {/* Featured image for photo posts */}
+        {/* Featured image for photo posts — 16:9 */}
         {postType === "image" && post.featuredImage && (
-          <div className="w-full h-32 sm:h-40 rounded-lg mb-4 overflow-hidden relative">
+          <div className="w-full aspect-video rounded-lg mb-4 overflow-hidden relative">
             <Image
-              src={urlFor(post.featuredImage).width(800).height(400).url()}
+              src={urlFor(post.featuredImage).width(800).height(450).url()}
               alt={post.title}
               fill
               className="object-cover"
@@ -80,16 +80,16 @@ export default function PostCard({ post }: { post: SanityPost }) {
           </div>
         )}
 
-        {/* Placeholder if image post but no image */}
+        {/* Placeholder if image post but no image — 16:9 */}
         {postType === "image" && !post.featuredImage && (
-          <div className="w-full h-32 sm:h-40 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-2xl sm:text-3xl">
+          <div className="w-full aspect-video bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-2xl sm:text-3xl">
             🏔
           </div>
         )}
 
-        {/* YouTube thumbnail for video posts */}
+        {/* YouTube thumbnail for video posts — 16:9 */}
         {postType === "video" && youtubeId && (
-          <div className="w-full h-32 sm:h-40 rounded-lg mb-4 overflow-hidden relative">
+          <div className="w-full aspect-video rounded-lg mb-4 overflow-hidden relative">
             <Image
               src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
               alt={post.title}
@@ -104,9 +104,9 @@ export default function PostCard({ post }: { post: SanityPost }) {
           </div>
         )}
 
-        {/* Placeholder if video post but no URL */}
+        {/* Placeholder if video post but no URL — 16:9 */}
         {postType === "video" && !youtubeId && (
-          <div className="w-full h-32 sm:h-40 bg-tag-bg rounded-lg mb-4 flex items-center justify-center text-tag-text text-3xl sm:text-4xl">
+          <div className="w-full aspect-video bg-tag-bg rounded-lg mb-4 flex items-center justify-center text-tag-text text-3xl sm:text-4xl">
             ▶
           </div>
         )}
