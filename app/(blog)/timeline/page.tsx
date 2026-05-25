@@ -12,7 +12,7 @@ export const revalidate = 60;
 export const metadata = {
   title: "Timeline — Sicópatas de Viña",
   description:
-    "A chronological timeline of events in the Sicópatas de Viña documentary universe.",
+    "Un registro cronológico de los principales acontecimientos en el caso de los Sicópatas de Viña — desde el primer asesinato hasta la condena final, y más allá.",
 };
 
 export default async function TimelinePage() {
@@ -30,7 +30,7 @@ export default async function TimelinePage() {
         </p>
       </div>
 
-      <Timeline events={events} />
+      <Timelines events={events} />
     </div>
   );
 }
