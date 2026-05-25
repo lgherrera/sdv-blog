@@ -31,10 +31,25 @@ function formatDate(dateString: string): string {
   });
 }
 
+function getYouTubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
+    /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
 export default function PostCard({ post }: { post: SanityPost }) {
   const postType = post.postType || "text";
   const config = typeConfig[postType];
   const slug = post.slug?.current || "";
+  const youtubeId = post.featuredVideo ? getYouTubeId(post.featuredVideo) : null;
 
   return (
     <Link href={`/blog/${slug}`} className="block group">
@@ -65,15 +80,32 @@ export default function PostCard({ post }: { post: SanityPost }) {
           </div>
         )}
 
-        {/* Placeholder if no image */}
+        {/* Placeholder if image post but no image */}
         {postType === "image" && !post.featuredImage && (
           <div className="w-full h-32 sm:h-40 bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-2xl sm:text-3xl">
             🏔
           </div>
         )}
 
-        {/* Video placeholder */}
-        {postType === "video" && (
+        {/* YouTube thumbnail for video posts */}
+        {postType === "video" && youtubeId && (
+          <div className="w-full h-32 sm:h-40 rounded-lg mb-4 overflow-hidden relative">
+            <Image
+              src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
+              alt={post.title}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+                <span className="text-red-600 text-xl ml-1">▶</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Placeholder if video post but no URL */}
+        {postType === "video" && !youtubeId && (
           <div className="w-full h-32 sm:h-40 bg-tag-bg rounded-lg mb-4 flex items-center justify-center text-tag-text text-3xl sm:text-4xl">
             ▶
           </div>
@@ -88,15 +120,11 @@ export default function PostCard({ post }: { post: SanityPost }) {
         <div className="font-sans text-[11px] sm:text-xs text-blog-text-hint flex flex-wrap items-center gap-2 sm:gap-2.5 mb-3">
           {post.publishedAt && <span>{formatDate(post.publishedAt)}</span>}
           <span className="w-[3px] h-[3px] rounded-full bg-blog-text-hint" />
-          <span>
-            {postType === "video" ? "watch" : "read"}
-          </span>
+          <span>{postType === "video" ? "watch" : "read"}</span>
           {post.author && (
             <>
               <span className="w-[3px] h-[3px] rounded-full bg-blog-text-hint hidden sm:block" />
-              <span className="hidden sm:inline">
-                by {post.author.name}
-              </span>
+              <span className="hidden sm:inline">by {post.author.name}</span>
             </>
           )}
         </div>
