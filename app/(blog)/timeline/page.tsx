@@ -30,7 +30,7 @@ export default async function TimelinePage() {
         </p>
       </div>
 
-      <Timelines events={events} />
+      <Timeline events={events} />
     </div>
   );
 }
