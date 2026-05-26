@@ -1,6 +1,6 @@
 // components/Header.tsx
 //
-// Updated: added Timeline link to desktop nav and mobile menu.
+// Updated: Categories link now points to /categories index page.
 
 "use client";
 
@@ -38,7 +38,7 @@ export default function Header() {
             Timeline
           </Link>
           <Link
-            href="/category/technology"
+            href="/categories"
             className="font-sans text-sm text-blog-text-muted hover:text-blog-text transition-colors"
           >
             Categories
@@ -138,7 +138,7 @@ export default function Header() {
             Timeline
           </Link>
           <Link
-            href="/category/technology"
+            href="/categories"
             onClick={() => setMenuOpen(false)}
             className="block font-sans text-sm text-blog-text-muted hover:text-blog-text transition-colors"
           >
