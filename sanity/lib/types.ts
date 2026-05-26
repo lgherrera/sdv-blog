@@ -86,6 +86,9 @@ export interface SanityImage {
     _id: string;
     title: string;
     slug: SanitySlug;
+    postType?: "text" | "image" | "video";
+    featuredVideo?: string;
+    featuredImage?: SanityImage;
     publishedAt: string;
     category?: CategoryRef;
   }

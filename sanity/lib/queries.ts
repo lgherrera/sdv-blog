@@ -2,7 +2,7 @@
 
 import { groq } from "next-sanity";
 
-// ── Posts ───────────────────────────────────────────────────────
+// Posts
 export const postsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -62,6 +62,9 @@ export const featuredPostsQuery = groq`
     _id,
     title,
     slug,
+    postType,
+    featuredVideo,
+    featuredImage,
     publishedAt,
     "category": category->{ name, slug }
   }
@@ -83,7 +86,7 @@ export const postsByCategoryQuery = groq`
   }
 `;
 
-// ── Categories ──────────────────────────────────────────────────
+// Categories
 export const categoriesQuery = groq`
   *[_type == "category"] | order(name asc) {
     _id,
@@ -104,7 +107,7 @@ export const categoryBySlugQuery = groq`
   }
 `;
 
-// ── News ────────────────────────────────────────────────────────
+// News
 export const newsQuery = groq`
   *[_type == "news"] | order(date desc) [0...5] {
     _id,
@@ -117,7 +120,7 @@ export const newsQuery = groq`
   }
 `;
 
-// ── Authors ─────────────────────────────────────────────────────
+// Authors
 export const authorBySlugQuery = groq`
   *[_type == "author" && slug.current == $slug][0] {
     _id,
@@ -125,30 +128,5 @@ export const authorBySlugQuery = groq`
     slug,
     avatar,
     bio
-  }
-`;
-
-// ── Timeline Events ─────────────────────────────────────────────
-export const timelineEventsQuery = groq`
-  *[_type == "event"] | order(date asc) {
-    _id,
-    title,
-    slug,
-    eventType,
-    date,
-    endDate,
-    summary,
-    sceneImage,
-    dramaticWeight,
-    narrativeArc,
-    era,
-    method,
-    verdict,
-    sentence,
-    "location": location->{ name, slug },
-    "victims": victims[]->{ _id, name, slug },
-    "perpetrators": perpetrators[]->{ _id, name, slug },
-    "followedBy": followedBy->{ _id, title, slug, eventType },
-    "precededBy": precededBy->{ _id, title, slug, eventType }
   }
 `;

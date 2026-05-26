@@ -25,6 +25,20 @@ function formatShortDate(dateString: string): string {
   });
 }
 
+function getYouTubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
+    /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
 export default function Sidebar({
   categories,
   featuredPosts,
@@ -94,28 +108,52 @@ export default function Sidebar({
             ⭐ Featured posts
           </h3>
           <ul>
-            {featuredPosts.map((post) => (
-              <li
-                key={post._id}
-                className="flex items-start gap-2 py-2 border-b border-blog-border last:border-b-0"
-              >
-                <span className="text-news-dot text-xs mt-0.5 flex-shrink-0">
-                  ⭐
-                </span>
-                <div>
-                  <Link
-                    href={`/blog/${post.slug.current}`}
-                    className="text-[13px] text-blog-text hover:text-blog-accent transition-colors leading-snug block"
-                  >
-                    {post.title}
-                  </Link>
-                  <span className="font-sans text-[11px] text-blog-text-hint">
-                    {formatShortDate(post.publishedAt)}
-                    {post.category && ` · ${post.category.name}`}
-                  </span>
-                </div>
-              </li>
-            ))}
+            {featuredPosts.map((post) => {
+              const youtubeId =
+                post.postType === "video" && post.featuredVideo
+                  ? getYouTubeId(post.featuredVideo)
+                  : null;
+
+              return (
+                <li
+                  key={post._id}
+                  className="flex items-start gap-2 py-2 border-b border-blog-border last:border-b-0"
+                >
+                  {youtubeId ? (
+                    <Link
+                      href={`/blog/${post.slug.current}`}
+                      className="relative w-16 h-10 rounded overflow-hidden flex-shrink-0"
+                    >
+                      <Image
+                        src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <span className="text-white text-[10px]">▶</span>
+                      </div>
+                    </Link>
+                  ) : (
+                    <span className="text-news-dot text-xs mt-0.5 flex-shrink-0">
+                      ⭐
+                    </span>
+                  )}
+                  <div>
+                    <Link
+                      href={`/blog/${post.slug.current}`}
+                      className="text-[13px] text-blog-text hover:text-blog-accent transition-colors leading-snug block"
+                    >
+                      {post.title}
+                    </Link>
+                    <span className="font-sans text-[11px] text-blog-text-hint">
+                      {formatShortDate(post.publishedAt)}
+                      {post.category && ` · ${post.category.name}`}
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
