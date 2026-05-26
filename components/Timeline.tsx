@@ -211,16 +211,18 @@ export default function Timeline({ events }: TimelineProps) {
                             {event.victims?.map((v) => (
                               <span
                                 key={v._id}
-                                className="font-sans text-[10px] bg-red-500/10 text-red-400 px-1.5 py-0.5 rounded"
+                                className="font-sans text-[10px] bg-red-500/10 text-red-400 px-1.5 py-0.5 rounded inline-flex items-center gap-1"
                               >
+                                <span className="opacity-70">Victim</span>
                                 {v.name}
                               </span>
                             ))}
                             {event.perpetrators?.map((p) => (
                               <span
                                 key={p._id}
-                                className="font-sans text-[10px] bg-blog-accent-light text-blog-accent px-1.5 py-0.5 rounded"
+                                className="font-sans text-[10px] bg-orange-500/10 text-orange-400 px-1.5 py-0.5 rounded inline-flex items-center gap-1"
                               >
+                                <span className="opacity-70">Criminal</span>
                                 {p.name}
                               </span>
                             ))}
