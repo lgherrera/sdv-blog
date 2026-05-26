@@ -107,25 +107,24 @@ export default function Sidebar({
           <h3 className="font-sans text-[11px] font-medium uppercase tracking-wider text-blog-text-hint mb-3">
             ⭐ Featured posts
           </h3>
-          <ul>
+          <ul className="space-y-3">
             {featuredPosts.map((post) => {
               const youtubeId =
                 post.postType === "video" && post.featuredVideo
                   ? getYouTubeId(post.featuredVideo)
                   : null;
               const isPortrait = post.imageFormat === "portrait";
-              const hasThumbnail = youtubeId || post.featuredImage;
 
               return (
                 <li
                   key={post._id}
-                  className="flex items-start gap-2 py-2 border-b border-blog-border last:border-b-0"
+                  className="border-b border-blog-border last:border-b-0 pb-3 last:pb-0"
                 >
-                  {/* Video thumbnail */}
+                  {/* Video thumbnail — above title */}
                   {youtubeId ? (
                     <Link
                       href={`/blog/${post.slug.current}`}
-                      className="relative w-16 h-10 rounded overflow-hidden flex-shrink-0"
+                      className="relative w-full aspect-video rounded-lg overflow-hidden block mb-2"
                     >
                       <Image
                         src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`}
@@ -134,33 +133,28 @@ export default function Sidebar({
                         className="object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                        <span className="text-white text-[10px]">▶</span>
+                        <span className="text-white text-sm">▶</span>
                       </div>
                     </Link>
                   ) : post.featuredImage ? (
-                    /* Featured image thumbnail */
+                    /* Featured image — above title */
                     <Link
                       href={`/blog/${post.slug.current}`}
-                      className={`relative rounded overflow-hidden flex-shrink-0 ${
-                        isPortrait ? "w-10 h-[60px]" : "w-16 h-10"
+                      className={`relative w-full rounded-lg overflow-hidden block mb-2 ${
+                        isPortrait ? "aspect-[2/3]" : "aspect-video"
                       }`}
                     >
                       <Image
                         src={urlFor(post.featuredImage)
-                          .width(isPortrait ? 80 : 128)
-                          .height(isPortrait ? 120 : 80)
+                          .width(isPortrait ? 400 : 460)
+                          .height(isPortrait ? 600 : 260)
                           .url()}
                         alt={post.title}
                         fill
                         className="object-cover"
                       />
                     </Link>
-                  ) : (
-                    /* No image fallback */
-                    <span className="text-news-dot text-xs mt-0.5 flex-shrink-0">
-                      ⭐
-                    </span>
-                  )}
+                  ) : null}
                   <div>
                     <Link
                       href={`/blog/${post.slug.current}`}
