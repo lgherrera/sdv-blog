@@ -130,3 +130,28 @@ export const authorBySlugQuery = groq`
     bio
   }
 `;
+
+// Timeline Events
+export const timelineEventsQuery = groq`
+  *[_type == "event"] | order(date asc) {
+    _id,
+    title,
+    slug,
+    eventType,
+    date,
+    endDate,
+    summary,
+    sceneImage,
+    dramaticWeight,
+    narrativeArc,
+    era,
+    method,
+    verdict,
+    sentence,
+    "location": location->{ name, slug },
+    "victims": victims[]->{ _id, name, slug },
+    "perpetrators": perpetrators[]->{ _id, name, slug },
+    "followedBy": followedBy->{ _id, title, slug, eventType },
+    "precededBy": precededBy->{ _id, title, slug, eventType }
+  }
+`;
