@@ -37,6 +37,7 @@ export interface SanityImage {
     postType: "text" | "image" | "video";
     excerpt?: string;
     featuredImage?: SanityImage;
+    imageFormat?: "landscape" | "portrait";
     featuredVideo?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any[];
@@ -89,6 +90,7 @@ export interface SanityImage {
     postType?: "text" | "image" | "video";
     featuredVideo?: string;
     featuredImage?: SanityImage;
+    imageFormat?: "landscape" | "portrait";
     publishedAt: string;
     category?: CategoryRef;
   }

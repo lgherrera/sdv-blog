@@ -3,6 +3,7 @@
 // The blog post — the front door to the documentary platform.
 // Supports three content types (text, image, video) and
 // scrollytelling mode for immersive narrative posts.
+// Images support landscape (16:9) and portrait (2:3) formats.
 
 import { defineType, defineField } from "sanity";
 
@@ -50,6 +51,21 @@ export default defineType({
       title: "Featured image",
       type: "image",
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "imageFormat",
+      title: "Image format",
+      type: "string",
+      options: {
+        list: [
+          { title: "Landscape (16:9)", value: "landscape" },
+          { title: "Portrait (2:3)", value: "portrait" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "landscape",
+      hidden: ({ parent }) => parent?.postType === "video",
+      description: "Aspect ratio for the featured image.",
     }),
     defineField({
       name: "featuredVideo",

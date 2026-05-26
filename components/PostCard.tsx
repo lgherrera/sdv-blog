@@ -49,7 +49,10 @@ export default function PostCard({ post }: { post: SanityPost }) {
   const postType = post.postType || "text";
   const config = typeConfig[postType];
   const slug = post.slug?.current || "";
-  const youtubeId = post.featuredVideo ? getYouTubeId(post.featuredVideo) : null;
+  const youtubeId = post.featuredVideo
+    ? getYouTubeId(post.featuredVideo)
+    : null;
+  const isPortrait = post.imageFormat === "portrait";
 
   return (
     <Link href={`/blog/${slug}`} className="block group">
@@ -68,11 +71,18 @@ export default function PostCard({ post }: { post: SanityPost }) {
           )}
         </div>
 
-        {/* Featured image for photo posts — 16:9 */}
-        {postType === "image" && post.featuredImage && (
-          <div className="w-full aspect-video rounded-lg mb-4 overflow-hidden relative">
+        {/* Featured image for photo/article posts */}
+        {postType !== "video" && post.featuredImage && (
+          <div
+            className={`w-full rounded-lg mb-4 overflow-hidden relative ${
+              isPortrait ? "aspect-[2/3]" : "aspect-video"
+            }`}
+          >
             <Image
-              src={urlFor(post.featuredImage).width(800).height(450).url()}
+              src={urlFor(post.featuredImage)
+                .width(isPortrait ? 800 : 800)
+                .height(isPortrait ? 1200 : 450)
+                .url()}
               alt={post.title}
               fill
               className="object-cover"
@@ -80,14 +90,18 @@ export default function PostCard({ post }: { post: SanityPost }) {
           </div>
         )}
 
-        {/* Placeholder if image post but no image — 16:9 */}
+        {/* Placeholder if image post but no image */}
         {postType === "image" && !post.featuredImage && (
-          <div className="w-full aspect-video bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-2xl sm:text-3xl">
+          <div
+            className={`w-full bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-lg mb-4 flex items-center justify-center text-blog-text-hint text-2xl sm:text-3xl ${
+              isPortrait ? "aspect-[2/3]" : "aspect-video"
+            }`}
+          >
             🏔
           </div>
         )}
 
-        {/* YouTube thumbnail for video posts — 16:9 */}
+        {/* YouTube thumbnail for video posts — always 16:9 */}
         {postType === "video" && youtubeId && (
           <div className="w-full aspect-video rounded-lg mb-4 overflow-hidden relative">
             <Image
@@ -104,7 +118,7 @@ export default function PostCard({ post }: { post: SanityPost }) {
           </div>
         )}
 
-        {/* Placeholder if video post but no URL — 16:9 */}
+        {/* Placeholder if video post but no URL — always 16:9 */}
         {postType === "video" && !youtubeId && (
           <div className="w-full aspect-video bg-tag-bg rounded-lg mb-4 flex items-center justify-center text-tag-text text-3xl sm:text-4xl">
             ▶

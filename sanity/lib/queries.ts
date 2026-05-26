@@ -11,6 +11,7 @@ export const postsQuery = groq`
     postType,
     excerpt,
     featuredImage,
+    imageFormat,
     featuredVideo,
     featured,
     publishedAt,
@@ -31,6 +32,7 @@ export const postBySlugQuery = groq`
     postType,
     excerpt,
     featuredImage,
+    imageFormat,
     featuredVideo,
     body,
     featured,
@@ -65,6 +67,7 @@ export const featuredPostsQuery = groq`
     postType,
     featuredVideo,
     featuredImage,
+    imageFormat,
     publishedAt,
     "category": category->{ name, slug }
   }
@@ -78,6 +81,7 @@ export const postsByCategoryQuery = groq`
     postType,
     excerpt,
     featuredImage,
+    imageFormat,
     featuredVideo,
     featured,
     publishedAt,
@@ -128,30 +132,5 @@ export const authorBySlugQuery = groq`
     slug,
     avatar,
     bio
-  }
-`;
-
-// Timeline Events
-export const timelineEventsQuery = groq`
-  *[_type == "event"] | order(date asc) {
-    _id,
-    title,
-    slug,
-    eventType,
-    date,
-    endDate,
-    summary,
-    sceneImage,
-    dramaticWeight,
-    narrativeArc,
-    era,
-    method,
-    verdict,
-    sentence,
-    "location": location->{ name, slug },
-    "victims": victims[]->{ _id, name, slug },
-    "perpetrators": perpetrators[]->{ _id, name, slug },
-    "followedBy": followedBy->{ _id, title, slug, eventType },
-    "precededBy": precededBy->{ _id, title, slug, eventType }
   }
 `;

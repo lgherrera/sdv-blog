@@ -71,7 +71,11 @@ const portableTextComponents = {
     ),
   },
   types: {
-    image: ({ value }: { value: { asset: { _ref: string }; alt?: string } }) => (
+    image: ({
+      value,
+    }: {
+      value: { asset: { _ref: string }; alt?: string };
+    }) => (
       <div className="my-6 rounded-lg overflow-hidden relative w-full aspect-video">
         <Image
           src={urlFor(value).width(1200).height(675).url()}
@@ -120,6 +124,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const postType = post.postType || "text";
   const config = typeConfig[postType];
+  const isPortrait = post.imageFormat === "portrait";
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-5 sm:py-7">
@@ -156,11 +161,18 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Featured image — 16:9 */}
+      {/* Featured image — dynamic aspect ratio */}
       {postType !== "video" && post.featuredImage && (
-        <div className="w-full aspect-video rounded-xl mb-5 sm:mb-6 overflow-hidden relative">
+        <div
+          className={`w-full rounded-xl mb-5 sm:mb-6 overflow-hidden relative ${
+            isPortrait ? "aspect-[2/3]" : "aspect-video"
+          }`}
+        >
           <Image
-            src={urlFor(post.featuredImage).width(1200).height(675).url()}
+            src={urlFor(post.featuredImage)
+              .width(isPortrait ? 800 : 1200)
+              .height(isPortrait ? 1200 : 675)
+              .url()}
             alt={post.title}
             fill
             className="object-cover"
@@ -168,11 +180,15 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Placeholder if no media for image/video posts — 16:9 */}
+      {/* Placeholder if no media for image/video posts */}
       {!post.featuredImage &&
         !post.featuredVideo &&
         (postType === "image" || postType === "video") && (
-          <div className="w-full aspect-video bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-xl mb-5 sm:mb-6 flex items-center justify-center text-blog-text-hint text-3xl sm:text-4xl">
+          <div
+            className={`w-full bg-gradient-to-br from-blog-accent-light to-cat-bg rounded-xl mb-5 sm:mb-6 flex items-center justify-center text-blog-text-hint text-3xl sm:text-4xl ${
+              isPortrait ? "aspect-[2/3]" : "aspect-video"
+            }`}
+          >
             {postType === "image" ? "🏔" : "▶"}
           </div>
         )}
