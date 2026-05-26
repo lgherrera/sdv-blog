@@ -117,12 +117,12 @@ export default function Sidebar({
               return (
                 <li
                   key={post._id}
-                  className="flex items-start gap-2 py-2 border-b border-blog-border last:border-b-0"
+                  className="py-2 border-b border-blog-border last:border-b-0"
                 >
-                  {youtubeId ? (
+                  {youtubeId && (
                     <Link
                       href={`/blog/${post.slug.current}`}
-                      className="relative w-16 h-10 rounded overflow-hidden flex-shrink-0"
+                      className="relative w-full aspect-video rounded-lg overflow-hidden mb-2 block"
                     >
                       <Image
                         src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`}
@@ -131,25 +131,28 @@ export default function Sidebar({
                         className="object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                        <span className="text-white text-[10px]">▶</span>
+                        <span className="text-white text-lg">▶</span>
                       </div>
                     </Link>
-                  ) : (
-                    <span className="text-news-dot text-xs mt-0.5 flex-shrink-0">
-                      ⭐
-                    </span>
                   )}
-                  <div>
-                    <Link
-                      href={`/blog/${post.slug.current}`}
-                      className="text-[13px] text-blog-text hover:text-blog-accent transition-colors leading-snug block"
-                    >
-                      {post.title}
-                    </Link>
-                    <span className="font-sans text-[11px] text-blog-text-hint">
-                      {formatShortDate(post.publishedAt)}
-                      {post.category && ` · ${post.category.name}`}
-                    </span>
+                  <div className={youtubeId ? "" : "flex items-start gap-2"}>
+                    {!youtubeId && (
+                      <span className="text-news-dot text-xs mt-0.5 flex-shrink-0">
+                        ⭐
+                      </span>
+                    )}
+                    <div>
+                      <Link
+                        href={`/blog/${post.slug.current}`}
+                        className="text-[13px] text-blog-text hover:text-blog-accent transition-colors leading-snug block"
+                      >
+                        {post.title}
+                      </Link>
+                      <span className="font-sans text-[11px] text-blog-text-hint">
+                        {formatShortDate(post.publishedAt)}
+                        {post.category && ` · ${post.category.name}`}
+                      </span>
+                    </div>
                   </div>
                 </li>
               );
